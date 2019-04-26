@@ -10,12 +10,39 @@ namespace Task1
     {
         static void Main(string[] args)
         {
-            // The code provided will print ‘Hello World’ to the console.
-            // Press Ctrl+F5 (or go to Debug > Start Without Debugging) to run your app.
-            Console.WriteLine("Hello World!");
-            Console.ReadKey();
+  
+            DList dList = new DList();
+            dList.Add(1);
+            dList.Add(2);
+            dList.Add(3);
+            dList.Add(4);
+            dList.Add(5);
+            dList.Add(6);
+            Console.WriteLine(dList[2]);
+            Console.WriteLine(  dList.count);
+            Console.WriteLine("_________________");
+            dList.Remove(2);
+            Console.WriteLine(dList[2]);
+            Console.WriteLine(dList.count);
+             Console.WriteLine("_________________");
+            foreach (var item in dList)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine("_________________");
+            for (int i = 0; i < dList.count; i++)
+            {
+                Console.WriteLine(dList[i]);
+            }
+            Console.WriteLine("_________________");
+            dList.Add(4);
+            foreach (var item in dList)
+            {
+                Console.WriteLine(item);
+            }
+            
 
-            // Go to http://aka.ms/dotnet-get-started-console to continue learning how to build a console app! 
+
         }
     }
 }
