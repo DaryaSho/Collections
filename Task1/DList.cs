@@ -7,36 +7,31 @@ using System.Threading.Tasks;
 namespace Task1
 {
   
-    class DList
+    class DList<T>
     {
       
 
-       object[] arr;
-       int n = 4;
+       T[] arr;
+       int size = 4;
        int pointer = 0;
 
-       public object this[int i]
-        {
+       public T this[int i]
+       {
             get
             {
                 return arr[i];
             }
        }
        
-        public DList(int n)
+        public DList(int size = 4)
         {
-            if (n.GetType() == this.n.GetType()) {
-                this.n = n;
-            } 
-            arr = new object[n];
+           
+            this.size = size;
+            arr = new T[size];
         }
 
-        public DList()
-        {
-            arr = new object[4];
-        }
        
-        public int count
+        public int Count
         {
             get
             {
@@ -44,55 +39,50 @@ namespace Task1
             }
         }
 
-        public void Add (object t)
+        public void Add (T t)
         {
-            Check();
-            arr[pointer] = t;
-            pointer++;
+            Check_And_Create();
+            arr[pointer++] = t;
         }
 
         public void Remove()
         {
-            pointer--;
-            arr[pointer] = null;
+            arr[--pointer] = default(T);
         }
-        public void Remove(int ind)
-        {
-            int  j = 0;
+
+        public void Remove(int index)
+        { 
             pointer--;
-            var arr1 = arr;
-            for ( int i = 0; i < pointer; i++)
+            for (int i = index; i < pointer; i++)
             {
-                if (ind == i-1) j++;
-                arr[i] = arr[j];
-                j++;
-               
+                arr[i] = arr[i + 1];
             }
         }
-        private void Check()
+
+        private void Check_And_Create()
         {
 
-            if (pointer >= n)
+            if (pointer >= size)
             {
-                n *= 2;
-                Create();
+                size *= 2;
+                Recreate();
             }     
         }
 
-        private void Create()
+        private void Recreate()
         {
             var arr1 = arr;
-            arr = new object[n];
-            for (int i = 0; i < n/2; i++)
+            arr = new T[size];
+            for (int i = 0; i < size / 2; i++)
             {
                 arr[i] = arr1[i];
             } 
         }
 
-        public IEnumerator<object> GetEnumerator()
-        {
-                return new DlistEnumerator(arr);
-        }
+        //public IEnumerator<T> GetEnumerator()
+        //{
+        //        return new DlistEnumerator(arr);
+        //}
     }
 
 }
