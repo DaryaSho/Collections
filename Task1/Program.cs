@@ -14,15 +14,23 @@ namespace Task1
             DDictionary<int, string> dDictionary = new DDictionary<int, string>();
             dDictionary.Add(1, "A");
             dDictionary.Add(2, "B");
+            dDictionary.Add(122, "dfg");
             Console.WriteLine(dDictionary[1]);
-            DDictionary<string, string> dDi = new DDictionary<string, string>();
+            DDictionary<string, string> dDi = new DDictionary<string, string>(5);
             dDi.Add("1", "A");
             dDi.Add("2", "B");
-            Console.WriteLine(dDi["1"]);
+            dDi.Add("3", "C");
+            dDi.Add("4", "D");
+            Console.WriteLine("_________");
             foreach (var item in dDi)
             {
                 Console.WriteLine(item);
             }
+            
+
+
+
         }
+       
     }
 }

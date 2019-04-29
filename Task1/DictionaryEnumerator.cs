@@ -9,23 +9,19 @@ namespace Task1
 {
     class DictionaryEnumerator<T,V>:IEnumerator
     {
-        T[] Tkey;
-        V[] TValue;
+        KeyValuePair<T, V>[] keyValuePair;
         int position = -1;
-        int size;
 
 
-        public DictionaryEnumerator(T[] Tkey,V[] TValue, int size)
+        public DictionaryEnumerator(KeyValuePair<T,V>[] keyValuePair)
         {
-            this.Tkey = Tkey;
-            this.TValue = TValue;
-            this.size = size;
+            this.keyValuePair = keyValuePair;
         }
 
         public bool MoveNext()
         {
             position++;
-            return (position < size);
+            return (position < keyValuePair.Length-1);
         }
 
         public void Reset()
@@ -41,13 +37,13 @@ namespace Task1
             }
         }
 
-        public V Current
+        public KeyValuePair<T, V>  Current
         {
             get
             {
                 try
                 {
-                    return TValue[position];
+                    return keyValuePair[position];
                 }
                 catch (IndexOutOfRangeException)
                 {
@@ -55,5 +51,6 @@ namespace Task1
                 }
             }
         }
+
     }
 }

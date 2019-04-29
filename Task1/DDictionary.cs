@@ -7,26 +7,23 @@ using System.Threading.Tasks;
 
 namespace Task1
 {
-    class DDictionary<T,V> : IEnumerable
+    class DDictionary<T,V>  : IEnumerable
     {
-        T[] TKey;
-        V[] TValue;
-        int size = 4; 
+        KeyValuePair<T,V>[] keyValues;
+        int size = 64;
         int pointer = 0;
 
         public void Add(T Key, V Val)
         {
             CheckAndCreate();
-            TKey[pointer] = Key;
-            TValue[pointer] = Val;
+            keyValues[HachFunction(Key)] =new KeyValuePair<T, V>(Key,Val);
             pointer++;
         }
 
-        public DDictionary(int size = 4)
+        public DDictionary(int size = 64)
         {
             this.size = size;
-            TKey = new T[size];
-            TValue = new V[size];
+            keyValues = new KeyValuePair<T, V>[size];
         }
 
         public int Count
@@ -41,18 +38,12 @@ namespace Task1
         {
             get
             {
-                return TValue[Search(Key)];
+                return keyValues[HachFunction(Key)].Value;
             }
-        }
-
-        private int Search (T key)
-        {
-            return Array.IndexOf(TKey, key);
         }
 
         private void CheckAndCreate()
         {
-
             if (pointer >= size)
             {
                 size *= 2;
@@ -62,41 +53,33 @@ namespace Task1
 
         private void Recreate()
         {
-            var k = TKey;
-            var v = TValue;
-            TKey = new T[size];
-            TValue = new V[size];
+            var kV = keyValues;
+            keyValues = new KeyValuePair<T, V>[size];
             for (int i = 0; i < size / 2; i++)
             {
-                TKey[i] = k[i];
-                TValue[i] = v[i];
+                keyValues[i] = kV[i];
             }
         }
 
-        public void Remove()
-        {
-            pointer--;
-            TKey[pointer] = default(T);
-            TValue[pointer] = default(V);
-        }
 
-        public void Remove(int index)
+        public void Remove(T key)
         {
             pointer--;
-            for (int i = index; i < pointer; i++)
-            {
-                TKey[pointer] = TKey[i + 1];
-                TValue[pointer] = TValue[i + 1];
-            }
+            keyValues[HachFunction(key)] = new KeyValuePair<T, V>(default(T), default(V));
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
             return (IEnumerator)GetEnumerator();
         }
-        public DictionaryEnumerator<T,V> GetEnumerator()
+        public DictionaryEnumerator<T, V> GetEnumerator()
         {
-            return new DictionaryEnumerator<T,V>(TKey, TValue, Count);
+            return new DictionaryEnumerator<T, V>(keyValues);
+        }
+
+        private int HachFunction(T key)
+        {
+            return Math.Abs((key.ToString()).GetHashCode() % size);
         }
     }
 }
