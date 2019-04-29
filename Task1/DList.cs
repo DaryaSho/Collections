@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,12 +8,12 @@ using System.Threading.Tasks;
 namespace Task1
 {
   
-    class DList<T>
+    class DList<T> : IEnumerable<T>
     {
       
 
        T[] arr;
-       int size = 4;
+       int size = 4; //capacity
        int pointer = 0;
 
        public T this[int i]
@@ -41,7 +42,7 @@ namespace Task1
 
         public void Add (T t)
         {
-            Check_And_Create();
+            CheckAndCreate();
             arr[pointer++] = t;
         }
 
@@ -59,7 +60,7 @@ namespace Task1
             }
         }
 
-        private void Check_And_Create()
+        private void CheckAndCreate()
         {
 
             if (pointer >= size)
@@ -78,11 +79,15 @@ namespace Task1
                 arr[i] = arr1[i];
             } 
         }
+        public IEnumerator<T> GetEnumerator()
+        {
+            return arr.Take(Count).GetEnumerator();
+        }
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
 
-        //public IEnumerator<T> GetEnumerator()
-        //{
-        //        return new DlistEnumerator(arr);
-        //}
     }
 
 }
