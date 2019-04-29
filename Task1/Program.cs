@@ -10,27 +10,15 @@ namespace Task1
     {
         static void Main(string[] args)
         {
-  
-            DList dList = new DList();
+
+            DList<int> dList = new DList<int>(5);
             dList.Add(1);
             dList.Add(2);
             dList.Add(3);
             dList.Add(4);
             dList.Add(5);
-            dList.Add(6);
-            Console.WriteLine(dList[2]);
-            Console.WriteLine(  dList.count);
-            Console.WriteLine("_________________");
-            dList.Remove(2);
-            Console.WriteLine(dList[2]);
-            Console.WriteLine(dList.count);
-             Console.WriteLine("_________________");
-            foreach (var item in dList)
-            {
-                Console.WriteLine(item);
-            }
-            Console.WriteLine("_________________");
-            for (int i = 0; i < dList.count; i++)
+            dList.Remove();
+            for (int i = 0; i < dList.Count; i++)
             {
                 Console.WriteLine(dList[i]);
             }
@@ -40,9 +28,18 @@ namespace Task1
             {
                 Console.WriteLine(item);
             }
-            
-
-
+            dList.Add(4);
+            DList<string> dListStr = new DList<string>(5);
+            dListStr.Add("1");
+            dListStr.Add("2");
+            dListStr.Add("3");
+            dListStr.Add("4");
+            dListStr.Add("5");
+            dListStr.Remove(2);
+            foreach (var item in dListStr)
+            {
+                Console.WriteLine(item);
+            }
         }
     }
 }

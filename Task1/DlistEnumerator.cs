@@ -7,43 +7,53 @@ using System.Threading.Tasks;
 
 namespace Task1
 {
-    class DlistEnumerator: IEnumerator<object>
+    class DlistEnumerator<T>: IEnumerator
+    {
+        T[] arr;
+        int position = -1;
+        int size;
+           
+
+        public DlistEnumerator(T[] arr, int size)
         {
-            object[] arr;
-            int position = -1;
-
-            public DlistEnumerator(object[] arr)
-            {
             this.arr = arr;
-            }
+            this.size = size;
+        }
 
-            public object Current
+        public bool MoveNext()
+        {
+            position++;
+            return (position < size);
+        }
+            
+        public void Reset()
+        {
+         position = -1;
+        }
+
+        object IEnumerator.Current
+        {
+            get
             {
-                get
+                return Current;
+            }
+        }
+
+        public T Current
+        {
+            get
+            {
+                try
                 {
-                    if (position == -1 || position >= arr.Length)
-                        throw new InvalidOperationException();
                     return arr[position];
                 }
-            }
-        object IEnumerator.Current => throw new NotImplementedException();
-
-           public bool MoveNext()
-            {
-                if (position < arr.Length - 1)
+                catch (IndexOutOfRangeException)
                 {
-                    position++;
-                    return true;
+                    throw new InvalidOperationException();
                 }
-                else
-                    return false;
             }
-
-            public void Reset()
-            {
-                position = -1;
-            }
-        public void Dispose() { }
+        }
+            
     }
 }
 

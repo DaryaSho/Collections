@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 namespace Task1
 {
   
-    class DList<T> : IEnumerable<T>
-    {
-      
-
+    class DList<T> : IEnumerable
+    {     
        T[] arr;
        int size = 4; //capacity
        int pointer = 0;
@@ -79,13 +77,14 @@ namespace Task1
                 arr[i] = arr1[i];
             } 
         }
-        public IEnumerator<T> GetEnumerator()
-        {
-            return arr.Take(Count).GetEnumerator();
-        }
+
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator();
+            return (IEnumerator)GetEnumerator();
+        }
+        public DlistEnumerator<T> GetEnumerator()
+        {
+            return new DlistEnumerator<T>(arr, Count);
         }
 
     }
