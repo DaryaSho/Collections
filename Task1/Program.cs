@@ -11,32 +11,15 @@ namespace Task1
         static void Main(string[] args)
         {
 
-            DList<int> dList = new DList<int>(5);
-            dList.Add(1);
-            dList.Add(2);
-            dList.Add(3);
-            dList.Add(4);
-            dList.Add(5);
-            dList.Remove();
-            for (int i = 0; i < dList.Count; i++)
-            {
-                Console.WriteLine(dList[i]);
-            }
-            Console.WriteLine("_________________");
-            dList.Add(4);
-            foreach (var item in dList)
-            {
-                Console.WriteLine(item);
-            }
-            dList.Add(4);
-            DList<string> dListStr = new DList<string>(5);
-            dListStr.Add("1");
-            dListStr.Add("2");
-            dListStr.Add("3");
-            dListStr.Add("4");
-            dListStr.Add("5");
-            dListStr.Remove(2);
-            foreach (var item in dListStr)
+            DDictionary<int, string> dDictionary = new DDictionary<int, string>();
+            dDictionary.Add(1, "A");
+            dDictionary.Add(2, "B");
+            Console.WriteLine(dDictionary[1]);
+            DDictionary<string, string> dDi = new DDictionary<string, string>();
+            dDi.Add("1", "A");
+            dDi.Add("2", "B");
+            Console.WriteLine(dDi["1"]);
+            foreach (var item in dDi)
             {
                 Console.WriteLine(item);
             }
