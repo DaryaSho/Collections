@@ -7,23 +7,17 @@ using System.Threading.Tasks;
 
 namespace Task1
 {
-    class DDictionary<T,V>  : IEnumerable
+  
+    class DDictionary<T,V> : IEnumerable
     {
-        KeyValuePair<T,V>[] keyValues;
-        int size = 64;
+        List<KeyValuePair<T, V>>[] dDictionary;
+        int size = 10;
         int pointer = 0;
 
-        public void Add(T Key, V Val)
-        {
-            CheckAndCreate();
-            keyValues[HachFunction(Key)] =new KeyValuePair<T, V>(Key,Val);
-            pointer++;
-        }
-
-        public DDictionary(int size = 64)
+        public DDictionary(int size = 10)
         {
             this.size = size;
-            keyValues = new KeyValuePair<T, V>[size];
+            dDictionary = new List<KeyValuePair<T, V>>[size];
         }
 
         public int Count
@@ -31,14 +25,6 @@ namespace Task1
             get
             {
                 return pointer;
-            }
-        }
-
-        public V this[T Key]
-        {
-            get
-            {
-                return keyValues[HachFunction(Key)].Value;
             }
         }
 
@@ -53,33 +39,59 @@ namespace Task1
 
         private void Recreate()
         {
-            var kV = keyValues;
-            keyValues = new KeyValuePair<T, V>[size];
+            var kV = dDictionary;
+            dDictionary = new List<KeyValuePair<T, V>>[size];
             for (int i = 0; i < size / 2; i++)
             {
-                keyValues[i] = kV[i];
+                dDictionary[i] = kV[i];
             }
         }
 
-
-        public void Remove(T key)
+        private int HashFunction(T key)
         {
-            pointer--;
-            keyValues[HachFunction(key)] = new KeyValuePair<T, V>(default(T), default(V));
+            return Math.Abs((key.ToString()).GetHashCode() % size);
+        }
+
+        public V this[T Key]
+        {
+            get
+            {
+                return dDictionary[HashFunction(Key)].Find(x => x.Key.Equals(Key)).Value;
+            }
+        }
+
+        public void Add(T Key, V Val)
+        {
+            CheckAndCreate();
+            int index = HashFunction(Key);
+            if (dDictionary[index]==null) dDictionary[index] = new List<KeyValuePair<T, V>>();
+            if (CheckByKey(Key)) Remove(Key);
+            dDictionary[index].Add(new KeyValuePair<T, V>(Key, Val));
+            pointer++;
+        }
+
+        public void Remove (T Key)
+        {
+            int index = HashFunction(Key);
+            KeyValuePair<T, V> kv = dDictionary[index].Find(x => x.Key.Equals(Key));
+            if (dDictionary[index] != null) dDictionary[index].Remove(kv);
+        }
+
+        private bool CheckByKey(T Key)
+        {
+            int index = HashFunction(Key);
+            int i = dDictionary[index]==null? -1: dDictionary[index].FindIndex(x => x.Key.Equals(Key));
+            return i!=-1;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
             return (IEnumerator)GetEnumerator();
         }
-        public DictionaryEnumerator<T, V> GetEnumerator()
+        public DictionaryEnumerator<T,V> GetEnumerator()
         {
-            return new DictionaryEnumerator<T, V>(keyValues);
+            return new DictionaryEnumerator<T,V>(dDictionary);
         }
 
-        private int HachFunction(T key)
-        {
-            return Math.Abs((key.ToString()).GetHashCode() % size);
-        }
     }
 }

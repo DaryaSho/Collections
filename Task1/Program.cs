@@ -11,26 +11,41 @@ namespace Task1
         static void Main(string[] args)
         {
 
-            DDictionary<int, string> dDictionary = new DDictionary<int, string>();
-            dDictionary.Add(1, "A");
-            dDictionary.Add(2, "B");
-            dDictionary.Add(122, "dfg");
-            Console.WriteLine(dDictionary[1]);
-            DDictionary<string, string> dDi = new DDictionary<string, string>(5);
-            dDi.Add("1", "A");
-            dDi.Add("2", "B");
-            dDi.Add("3", "C");
-            dDi.Add("4", "D");
-            Console.WriteLine("_________");
-            foreach (var item in dDi)
+            CreateDictionary();
+            CrateDList();
+        }
+        static void CrateDList()
+        {
+            DList<int> dList = new DList<int>(3);
+            dList.Add(0);
+            dList.Add(1);
+            dList.Add(2);
+            dList.Add(3);
+            dList.Add(4);
+            dList.Remove(3);
+            Console.WriteLine(dList[1]);
+            foreach (var item in dList)
             {
                 Console.WriteLine(item);
             }
-            
-
-
-
+            Console.WriteLine("______________");
+            Console.WriteLine(dList.Count);
         }
-       
+        static void CreateDictionary()
+        {
+            DDictionary<int, string> dd = new DDictionary<int, string>(10);
+            dd.Add(0, "q");
+            dd.Add(1, "w");
+            dd.Add(2, "e");
+            dd.Add(3, "r");
+            dd.Add(11, "1");
+            foreach (var item in dd)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine(dd[3]);
+            dd.Remove(3);
+            Console.WriteLine(dd[3]);
+        }
     }
 }
