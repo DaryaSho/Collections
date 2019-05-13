@@ -7,37 +7,40 @@ using System.Threading.Tasks;
 
 namespace Task1
 {
-    class DictionaryEnumerator <T, V> : IEnumerator 
+    class DictionaryEnumerator<T, V> : IEnumerator
     {
-        List<KeyValuePair<T, V>>[] dDictionary;
-        int position = -1;//0
-        int index = 0;
-        int i = 0;
+        List<KeyValuePair<T, V>>[] keyValuePair;
+        int position = 0;//0
+        int index = -1;
 
 
-        public DictionaryEnumerator(List<KeyValuePair<T, V>>[] dDictionary)
+        public DictionaryEnumerator(List<KeyValuePair<T, V>>[] keyValuePair)
         {
-            this.dDictionary = dDictionary;
+            this.keyValuePair = keyValuePair;
         }
 
         public bool MoveNext()
         {
-            position++;
-            if (position >= dDictionary.Length - 1) return false;
-            if (dDictionary[position] == null)
+            if (position >= keyValuePair.Length - 1) return false;
+            if (keyValuePair[position] == null)
+            {
+                position++;
                 return MoveNext();
-            //if (index >= dDictionary[position].Count - 1) {
-            //    index = 0;
-            //    position++;
-            //    return MoveNext();
-            //}
-            //else index++;
+            }
+            index++;
+            if (index > keyValuePair[position].Count - 1)
+            {
+                index = -1;
+                position++;
+                return MoveNext();
+            }
             return true;
         }
 
         public void Reset()
         {
-            position = -1;//0
+            position = 0;//0;
+            index = -1;
         }
 
         object IEnumerator.Current
@@ -48,15 +51,15 @@ namespace Task1
             }
         }
 
-        public KeyValuePair<T,V> Current
+        public KeyValuePair<T, V> Current
         {
             get
             {
                 try
                 {
-                    return  dDictionary[position].ElementAt(index);
+                    return keyValuePair[position].ElementAt(index);
                 }
-                catch(IndexOutOfRangeException)
+                catch (IndexOutOfRangeException)
                 {
                     throw new InvalidOperationException();
                 }
