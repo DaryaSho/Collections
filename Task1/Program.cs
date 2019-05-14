@@ -57,12 +57,14 @@ namespace Task1
             dLinked.AddFirst(1);
             dLinked.AddAfter(1, 200);
             dLinked.AddBefore(dLinked.Last, 100);
-           // dLinked.Remove(2);
-           // dLinked.Show();
-            foreach (var item in dLinked)
-            {
-                Console.WriteLine(item);
-            }
+            dLinked.reverseDisplay();
+            // dLinked.Remove(2);
+            Console.WriteLine("______________");
+             dLinked.Display();
+            //foreach (var item in dLinked)
+            //{
+            //    Console.WriteLine(item);
+            //}
 
         }
     }

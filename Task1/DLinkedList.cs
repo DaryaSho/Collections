@@ -48,20 +48,22 @@ namespace Task1
             if (!isEmpty())
             {
                 Node<T> previous = last;
-                last = new Node<T>(value, null);
+                last = new Node<T>(value, null, null);
                 previous.next = last;
+                last.prev = previous;
             }
             else
             {
-                last = new Node<T>(value, null);
+                last = new Node<T>(value, null, null);
                 first = last;
             }
             number++;
         }
+
         public void AddAfter(T value, T element)
         {
             Node<T> current = first;
-            Node<T> newElement = new Node<T>(element, null);
+            Node<T> newElement = new Node<T>(element, null, null);
             while (current.next != null || current == last)
             {
                 if (current.value.Equals(value))
@@ -70,7 +72,9 @@ namespace Task1
                     else {
                         Node<T> previous = current.next;
                         current.next = newElement;
+                        newElement.prev = current;
                         newElement.next = previous;
+                        previous.prev = newElement;
                     }
                     number++; 
                     break;
@@ -83,7 +87,7 @@ namespace Task1
         {
             Node<T> current = first;
             Node<T> previous = current;
-            Node<T> newElement = new Node<T>(element, null);
+            Node<T> newElement = new Node<T>(element, null, null);
             while (current.next != null || current == last)
             {
                 if (current.value.Equals(value))
@@ -92,7 +96,9 @@ namespace Task1
                     else
                     {
                         newElement.next=current;
+                        current.prev = newElement;
                         previous.next=newElement;
+                        newElement.prev = previous;
                     }
                     number++;
                     break;
@@ -102,30 +108,40 @@ namespace Task1
             }
         }
 
-
         public void AddFirst(T value)
         {
             if (!isEmpty())
             {
                 Node<T> previous = first;
-                first = new Node<T>(value, null);
+                first = new Node<T>(value, null, null);
                 first.next = previous;
+                previous.prev = first;
             }
             else
             {
-                first = new Node<T>(value, null);
+                first = new Node<T>(value, null, null);
                 last = first;
             }
             number++;
         }
 
-        public void Show()
+        public void Display()
         {
             Node<T> current = first;
             while (current != null)
             {              
                 Console.WriteLine(current.value);
                 current = current.next;
+            };
+        }
+
+        public void reverseDisplay()
+        {
+            Node<T> current = last;
+            while (current != null)
+            {
+                Console.WriteLine(current.value);
+                current = current.prev;
             };
         }
 
@@ -173,11 +189,13 @@ namespace Task1
     {
         public T value;
         public Node<T> next;
+        public Node<T> prev;
 
-        public Node(T value, Node<T> next)
+        public Node(T value, Node<T> next, Node<T> prev)
         {
             this.value = value;
             this.next = next;
+            this.prev = prev;
         }
     }
 }
