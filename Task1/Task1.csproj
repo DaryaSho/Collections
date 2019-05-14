@@ -44,8 +44,10 @@
   <ItemGroup>
     <Compile Include="DDictionary.cs" />
     <Compile Include="DictionaryEnumerator.cs" />
+    <Compile Include="DLinkedEnumerator.cs" />
     <Compile Include="DList.cs" />
     <Compile Include="DlistEnumerator.cs" />
+    <Compile Include="DLinkedList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

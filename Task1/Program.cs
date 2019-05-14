@@ -10,9 +10,10 @@ namespace Task1
     {
         static void Main(string[] args)
         {
+            DLink();
 
-            CreateDictionary();
-            CrateDList();
+           // CreateDictionary();
+          //  CrateDList();
         }
         static void CrateDList()
         {
@@ -46,6 +47,21 @@ namespace Task1
             Console.WriteLine(dd[3]);
             dd.Remove(3);
             Console.WriteLine(dd[3]);
+        }
+        static void DLink()
+        {
+            DLinkedList<int> dLinked = new DLinkedList<int>();
+            dLinked.AddFirst(3);
+            dLinked.AddLast(10);
+            dLinked.AddFirst(2);
+            dLinked.AddFirst(1);                
+            //dLinked.Remove(2);
+            dLinked.Show();
+            foreach (var item in dLinked)
+            {
+                Console.WriteLine(item);
+            }
+
         }
     }
 }
