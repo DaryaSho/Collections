@@ -54,9 +54,11 @@ namespace Task1
             dLinked.AddFirst(3);
             dLinked.AddLast(10);
             dLinked.AddFirst(2);
-            dLinked.AddFirst(1);                
-            //dLinked.Remove(2);
-            dLinked.Show();
+            dLinked.AddFirst(1);
+            dLinked.AddAfter(1, 200);
+            dLinked.AddBefore(dLinked.Last, 100);
+           // dLinked.Remove(2);
+           // dLinked.Show();
             foreach (var item in dLinked)
             {
                 Console.WriteLine(item);

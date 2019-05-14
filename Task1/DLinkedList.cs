@@ -19,6 +19,22 @@ namespace Task1
             number = 0;
         }
 
+        public T First
+        {
+            get
+            {
+                return first.value;
+            }
+        }
+
+        public T Last
+        {
+            get
+            {
+                return last.value;
+            }
+        }
+
         public int Count
         {
             get
@@ -42,6 +58,50 @@ namespace Task1
             }
             number++;
         }
+        public void AddAfter(T value, T element)
+        {
+            Node<T> current = first;
+            Node<T> newElement = new Node<T>(element, null);
+            while (current.next != null || current == last)
+            {
+                if (current.value.Equals(value))
+                {
+                    if (current.Equals(last)) { AddLast(element); }
+                    else {
+                        Node<T> previous = current.next;
+                        current.next = newElement;
+                        newElement.next = previous;
+                    }
+                    number++; 
+                    break;
+                }
+                current = current.next;
+            }
+        }
+
+        public void AddBefore(T value, T element)
+        {
+            Node<T> current = first;
+            Node<T> previous = current;
+            Node<T> newElement = new Node<T>(element, null);
+            while (current.next != null || current == last)
+            {
+                if (current.value.Equals(value))
+                {
+                    if (current.Equals(first)) { AddFirst(element); }
+                    else
+                    {
+                        newElement.next=current;
+                        previous.next=newElement;
+                    }
+                    number++;
+                    break;
+                }
+                previous = current;
+                current = previous.next;
+            }
+        }
+
 
         public void AddFirst(T value)
         {
