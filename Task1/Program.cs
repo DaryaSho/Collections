@@ -55,12 +55,19 @@ namespace Task1
             dLinked.AddLast(10);
             dLinked.AddFirst(2);
             dLinked.AddFirst(1);
-            dLinked.AddAfter(1, 200);
-            dLinked.AddBefore(dLinked.Last, 100);
-            dLinked.reverseDisplay();
+            dLinked.AddAfter(1, 300);
+            dLinked.AddBefore(1, 400);
+            dLinked.AddAfter(10, 500);
+            dLinked.Remove(500);
+            dLinked.Remove(400);
+            dLinked.Remove(2);
+            // dLinked.AddBefore(dLinked.Last, 100);
+            
             // dLinked.Remove(2);
-            Console.WriteLine("______________");
+            
              dLinked.Display();
+            Console.WriteLine("______________");
+            dLinked.ReverseDisplay();
             //foreach (var item in dLinked)
             //{
             //    Console.WriteLine(item);

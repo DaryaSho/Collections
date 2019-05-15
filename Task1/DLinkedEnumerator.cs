@@ -6,20 +6,16 @@ using System.Threading.Tasks;
 
 namespace Task1
 {
-    class DLinkedEnumerator<T>:IEnumerator
+    class DLinkedEnumerator<T> : IEnumerator
     {
-         Node<T> first;
-         Node<T> last;
-         Node<T> current;
+        Node<T> first;
         bool number = true;
+        Node<T> current;
 
 
-        public DLinkedEnumerator(Node<T> first, Node<T> last)
+        public DLinkedEnumerator(Node<T> first)
         {
-            this.first = first;
-            this.last = last;
-            current = first;
-            
+            this.first = current = first;
         }
 
         public bool MoveNext()

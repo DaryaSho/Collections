@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Task1
 {
-    class DLinkedList<T>: IEnumerable
+    class DLinkedList<T> : IEnumerable
     {
         private Node<T> first;
         private Node<T> last;
@@ -43,14 +43,27 @@ namespace Task1
             }
         }
 
+        private Node<T> Find(T value)
+        {
+            Node<T> current = first;
+            while (current != null)
+            {
+                if (current.value.Equals(value))
+                {
+                    return current;
+                }
+                current = current.next;
+            }
+            return null;
+        }
+
         public void AddLast(T value)
         {
             if (!isEmpty())
             {
                 Node<T> previous = last;
-                last = new Node<T>(value, null, null);
+                last = new Node<T>(value, previous, null);
                 previous.next = last;
-                last.prev = previous;
             }
             else
             {
@@ -60,61 +73,12 @@ namespace Task1
             number++;
         }
 
-        public void AddAfter(T value, T element)
-        {
-            Node<T> current = first;
-            Node<T> newElement = new Node<T>(element, null, null);
-            while (current.next != null || current == last)
-            {
-                if (current.value.Equals(value))
-                {
-                    if (current.Equals(last)) { AddLast(element); }
-                    else {
-                        Node<T> previous = current.next;
-                        current.next = newElement;
-                        newElement.prev = current;
-                        newElement.next = previous;
-                        previous.prev = newElement;
-                    }
-                    number++; 
-                    break;
-                }
-                current = current.next;
-            }
-        }
-
-        public void AddBefore(T value, T element)
-        {
-            Node<T> current = first;
-            Node<T> previous = current;
-            Node<T> newElement = new Node<T>(element, null, null);
-            while (current.next != null || current == last)
-            {
-                if (current.value.Equals(value))
-                {
-                    if (current.Equals(first)) { AddFirst(element); }
-                    else
-                    {
-                        newElement.next=current;
-                        current.prev = newElement;
-                        previous.next=newElement;
-                        newElement.prev = previous;
-                    }
-                    number++;
-                    break;
-                }
-                previous = current;
-                current = previous.next;
-            }
-        }
-
         public void AddFirst(T value)
         {
             if (!isEmpty())
             {
                 Node<T> previous = first;
-                first = new Node<T>(value, null, null);
-                first.next = previous;
+                first = new Node<T>(value, null, previous);
                 previous.prev = first;
             }
             else
@@ -125,17 +89,59 @@ namespace Task1
             number++;
         }
 
+        public void AddAfter(T value, T element)
+        {
+            Node<T> current = Find(value);
+            if (current == null)
+            {
+                return;
+            }
+            number++;
+            if (current.next == null)
+            {
+                AddLast(element);
+            }
+            else
+            {
+                Node<T> next = current.next;
+                current.next = new Node<T>(element, current, next);
+                next.prev = current.next;
+            }
+        }
+
+        public void AddBefore(T value, T element)
+        {
+            Node<T> current = Find(value);
+            if (current == null)
+            {
+                return;
+            }
+            number++;
+            if (current.prev == null)
+            {
+                AddFirst(element);
+            }
+            else
+            {
+                Node<T> previous = current.prev;
+                previous.next = new Node<T>(element, previous, current);
+                current.prev = previous.next;
+            }
+        }
+
+
+
         public void Display()
         {
             Node<T> current = first;
             while (current != null)
-            {              
+            {
                 Console.WriteLine(current.value);
                 current = current.next;
             };
         }
 
-        public void reverseDisplay()
+        public void ReverseDisplay()
         {
             Node<T> current = last;
             while (current != null)
@@ -149,21 +155,26 @@ namespace Task1
         {
             if (!isEmpty())
             {
-                Node<T> previous = first;
-                Node<T> current = first;
-                while (current.next != null || current == last)
+                Node<T> current = Find(value);
+                if (current == null)
                 {
-                    if (current.value.Equals(value))
-                    {
-                        if (number == 1) { first = null; last = null; }
-                        else if (current.Equals(first)) { first = first.next; }
-                        else if (current.Equals(last)) { last = previous; last.next = null; }
-                        else { previous.next = current.next; }
-                        number--;
-                        break;
-                    }
-                    previous = current;
-                    current = previous.next;
+                    return;
+                }
+                number--;
+                if (current.next == null)
+                {
+                    last = current.prev;
+                    last.next = null;
+                }
+                if (current.prev == null)
+                {
+                    first = current.next;
+                    first.prev = null;
+                }
+                if ((current.next != null) && (current.prev != null))
+                {
+                    current.prev.next = current.next;
+                    current.next.prev = current.prev;
                 }
             }
         }
@@ -173,7 +184,7 @@ namespace Task1
             return number == 0;
         }
 
-      
+
 
         IEnumerator IEnumerable.GetEnumerator()
         {
@@ -181,17 +192,18 @@ namespace Task1
         }
         public DLinkedEnumerator<T> GetEnumerator()
         {
-            return new DLinkedEnumerator<T>(first , last);
+            return new DLinkedEnumerator<T>(first);
         }
 
     }
+
     public class Node<T>
     {
         public T value;
-        public Node<T> next;
         public Node<T> prev;
+        public Node<T> next;
 
-        public Node(T value, Node<T> next, Node<T> prev)
+        public Node(T value, Node<T> prev, Node<T> next)
         {
             this.value = value;
             this.next = next;
